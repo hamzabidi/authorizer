@@ -1,0 +1,47 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
+    id 'jacoco'
+    id "org.sonarqube" version "3.4.0.2513"
+}
+
+group = 'net.asad.authorizer'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+
+jacoco {
+    toolVersion = "0.8.8"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+
+test.finalizedBy jacocoTestReport
+
+sonarqube {
+    properties {
+        property 'sonar.host.url', 'http://localhost:9000'
+    }
+}
+
+tasks.named('sonarqube').configure {
+    dependsOn test
+}
