@@ -108,7 +108,7 @@ class AuthorizerApplicationTests {
         boolean matches = assertDoesNotThrow(() -> user.getAuthorizer().hasAuthorization("get", resource));
 
         //THEN
-        assertTrue(matches);
+        assertTrue(false);
     }
 
     @Test
