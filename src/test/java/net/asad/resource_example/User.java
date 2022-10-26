@@ -43,6 +43,14 @@ public class User {
         this.authorizer = authorizer;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public Age getUserAge() {
+        return userAge;
+    }
+
     public Authorizer getAuthorizer() {
         return authorizer;
     }
