@@ -12,7 +12,9 @@ repositories {
 }
 
 group = 'io.github.hamzabidi'
-version = '0.0.1-SNAPSHOT'
+version = System.getenv('VERSION') ?
+        System.getenv('VERSION') :
+        '0.0.1-SNAPSHOT'
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'

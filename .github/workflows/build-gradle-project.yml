@@ -18,6 +18,9 @@ jobs:
         run: chmod +x ./gradlew
       - name: Publish package
         uses: gradle/gradle-build-action@v2.3.3
+        evn:
+          if: github.ref_type == 'tag' && github.head_ref = 'main'
+          VERSION: ${{github.ref_name}}
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
