@@ -4,7 +4,7 @@ on:
   push
 
 env:
-  if: github.ref_type == 'tag' && github.head_ref == 'main'
+  if: ${{ github.ref_type == 'tag' && github.head_ref == 'main' }}
   VERSION: ${{github.ref_name}}
 
 jobs:
@@ -27,6 +27,5 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
           GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
-
         with:
           arguments: publish
