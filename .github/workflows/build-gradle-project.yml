@@ -31,7 +31,7 @@ jobs:
         if: github.ref_name != 'main' && startsWith(github.ref, 'refs/tags/v')
         uses: gradle/gradle-build-action@v2.3.3
         env:
-          VERSION: ${{ github.head_ref }}
+          VERSION: ${{ github.ref_name }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
