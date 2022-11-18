@@ -3,8 +3,8 @@ name: Build Gradle project
 on:
   push
 
+if: startsWith(github.ref, 'rjefs/tags/')
 env:
-  if: startsWith(github.ref, 'rjefs/tags/')
   VERSION: ${{github.ref_name}}
 
 jobs:
