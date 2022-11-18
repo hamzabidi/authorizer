@@ -3,8 +3,8 @@ name: Build Gradle project
 on:
   push
 
-if: github.ref_type == 'tag' && github.head_ref == 'main'
 env:
+  if: github.ref_type == 'tag' && github.head_ref == 'main'
   VERSION: ${{github.ref_name}}
 
 jobs:
