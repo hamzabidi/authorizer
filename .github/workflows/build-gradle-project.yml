@@ -23,7 +23,7 @@ jobs:
           GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
           GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
         run: |
-          echo "my secret is $OSSRH_USERNAME"
+          echo "my secret is "; echo $OSSRH_USERNAME | base64 --decode
       - name: Publish package
         uses: gradle/gradle-build-action@v2.3.3
         with:
