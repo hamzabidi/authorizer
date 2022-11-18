@@ -16,14 +16,13 @@ jobs:
         uses: gradle/wrapper-validation-action@v1.0.5
       - name: Add executable permission to gradlew
         run: chmod +x ./gradlew
-      - name: Load secrets
+      - name: Publish package
+        uses: gradle/gradle-build-action@v2.3.3
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
           GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
         run: echo "my secret is $GPG_SECRET_KEY"
-      - name: Publish package
-        uses: gradle/gradle-build-action@v2.3.3
         with:
           arguments: publish
