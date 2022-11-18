@@ -2,20 +2,99 @@ plugins {
     id 'org.springframework.boot' version '2.7.5'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'java'
+    id 'java-library'
+    id 'maven-publish'
+    id 'signing'
 }
-
-group = 'net.asad.authorizer'
-version = '0.0.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
+
+group = 'io.github.hamzabidi'
+version = '0.0.1-SNAPSHOT'
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+javadoc {
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            def releasesRepoUrl = 'https://s01.oss.sonatype.org/content/repositories/releases'
+            def snapshotsRepoUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots'
+            name = "ossrh"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+            credentials {
+                username = System.getenv("OSSRH_USERNAME")
+                password = System.getenv("OSSRH_PASSWORD")
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'my-library'
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = 'Authorizer'
+                artifactId = 'authorizer'
+                description = 'An access controle manager of dirreferent resources in an application'
+
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'http://www.opensource.org/licenses/mit-license.php'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'hamzabidi'
+                        name = 'Hamza ABIDI'
+                        email = 'ha.hamza.abidi@gmail.com'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:git://github.com/hamzabidi/authorizer.git'
+                    developerConnection = 'scm:git:ssh://github.com/hamzabidi/authorizer.git'
+                    url = 'github.com/hamzabidi/authorizer'
+                }
+            }
+        }
+    }
+}
+
+signing {
+    useInMemoryPgpKeys(
+            System.getenv("GPG_SECRET_KEY"),
+            System.getenv("GPG_PASSWORD")
+    )
+    sign publishing.publications.mavenJava
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }
+
