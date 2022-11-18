@@ -16,6 +16,11 @@ jobs:
         uses: gradle/wrapper-validation-action@v1.0.5
       - name: Add executable permission to gradlew
         run: chmod +x ./gradlew
+      - name: Sets version variable for release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          VERSION: ${{ github.head_ref }}
+        run: echo "loading version for release ..."
       - name: Publish package
         if: github.ref_name != 'main'
         uses: gradle/gradle-build-action@v2.3.3
