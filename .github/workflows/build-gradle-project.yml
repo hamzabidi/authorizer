@@ -4,7 +4,7 @@ on:
   push
 
 env:
-  if: ${{ github.ref_type == 'tag' && github.head_ref == 'main' }}
+  if: github.ref_type != 'tag' && github.head_ref == 'main'
   VERSION: ${{github.ref_name}}
 
 jobs:
