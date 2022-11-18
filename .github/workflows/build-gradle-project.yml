@@ -3,10 +3,6 @@ name: Build Gradle project
 on:
   push
 
-if: startsWith(github.ref, 'rjefs/tags/')
-env:
-  VERSION: ${{github.ref_name}}
-
 jobs:
   build-gradle-project:
     runs-on: ubuntu-latest
@@ -28,5 +24,7 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           GPG_SECRET_KEY: ${{ secrets.GPG_SECRET_KEY }}
           GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
+          if: startsWith(github.ref, 'rjefs/tags/')
+          VERSION: ${{github.ref_name}}
         with:
           arguments: publish
